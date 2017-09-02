@@ -3,7 +3,7 @@
 signboardr
 ==========
 
-The goal of signboardr is to ...
+Utilize GoogleVision API to extract text from archaeological photos containing a sign board. Further, the extracted text can be added as searchable XMP metadata tags to photos.
 
 ### Citation
 
