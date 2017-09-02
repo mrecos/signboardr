@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 
 # signboardr
 
-The goal of signboardr is to ...
+Utilize GoogleVision API to extract text from archaeological photos containing a sign board. Further, the extracted text can be added as searchable metadata tags to photos.
 
 ### Citation
 
