@@ -1,9 +1,11 @@
 Package: signboardr
-Title: What the Package Does (one line, title case)
+Title: Extract text from sign board and tag as metadata
 Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Authors@R: person("Matthew", "Harris", email = "mr.ecos@gmail.com", role = c("aut", "cre"))
+Description: Utilize GoogleVision API to extract text from archaeological photos containing a sign board. Further, the extracted text can be added as searchable metadata tags to photos.
 Depends: R (>= 3.4.0)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+URL: https://github.com/mrecos/signboardr
+BugReports: https://github.com/mrecos/signboardr/issues
