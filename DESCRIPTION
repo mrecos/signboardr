@@ -9,3 +9,7 @@ Encoding: UTF-8
 LazyData: true
 URL: https://github.com/mrecos/signboardr
 BugReports: https://github.com/mrecos/signboardr/issues
+Imports: bookdown
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr
