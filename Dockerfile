@@ -18,4 +18,4 @@ RUN . /etc/environment \
   && R -e "devtools::install('/signboardr', dep=TRUE)" \
 
  # render the manuscript into a docx
-  && R -e "rmarkdown::render('/signboardr/vignettes/analysis/paper/paper.Rmd')"
+  && R -e "rmarkdown::render('/signboardr/vignettes/paper/paper.Rmd')"
