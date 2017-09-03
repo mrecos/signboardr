@@ -5,12 +5,6 @@ signboardr
 
 Utilize GoogleVision API to extract text from archaeological photos containing a sign board. Further, the extracted text can be added as searchable XMP metadata tags to photos.
 
-### Citation
-
-Please cite this compendium as:
-
-> Authors, (2017). *Title of compendium*. Accessed 02 Sep 2017. Online at <https://doi.org/xxx/xxx>
-
 ### Installation
 
 You can install signboardr from github with:
@@ -19,6 +13,11 @@ You can install signboardr from github with:
 # install.packages("devtools")
 devtools::install_github("mrecos/signboardr")
 ```
+### Description
+
+This package is a thin wrapper around the `RoogleVision` package `getGoogleVisionResponse` function with additional functions for plotting of extracted text and writing of extarcted text as XMP metadata using the ExifTools tool.
+
+### Usage
 
 ### Licenses
 
