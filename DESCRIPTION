@@ -14,6 +14,8 @@ Imports:
   RoogleVision,
   googleAuthR,
   exifr
+Remotes:
+  cloudyr/RoogleVision
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr
