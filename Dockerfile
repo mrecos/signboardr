@@ -13,6 +13,7 @@ RUN . /etc/environment \
   # e.g. need this for ggforce::geom_sina
   && sudo apt-get update \
   && sudo apt-get install libudunits2-dev -y \
+  && sudo apt-get install libimage-exiftool-perl \
 
   # build this compendium package
   && R -e "devtools::install('/signboardr', dep=TRUE)" \
