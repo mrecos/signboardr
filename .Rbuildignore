@@ -6,3 +6,4 @@
 ^CONTRIBUTING\.md$
 ^Dockerfile$
 ^\.travis\.yml$
+^\.httr-oauth$

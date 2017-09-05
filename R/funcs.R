@@ -12,8 +12,9 @@
 #' img_file_location <- "./vignettes/data/raw_data/example_images/IMG_0797.JPG"
 #' image_text <- extract_text(img_file_location)
 #' }
+#' @export
 extract_text <- function(img_path){
-  image_text = getGoogleVisionResponse(imgPath, feature = 'TEXT_DETECTION')
+  image_text = getGoogleVisionResponse(img_path, feature = 'TEXT_DETECTION')
 }
 
 #' @title Convert API response to tags
@@ -21,6 +22,7 @@ extract_text <- function(img_path){
 #' @description
 #' \code{make_tags} Takes the response from GoogleVision API and returns tags for metadata
 #' @param image_text a data.frame of extracted text as returned from \code{extract_text}
+#' @export
 make_tags <- function(image_text){
   img_tags <- image_text[1,"description"] %>%
     str_replace_all("\n", " ") %>%
@@ -40,7 +42,14 @@ make_tags <- function(image_text){
 #' img_plot <- plot_results(img_file_location, image_text)
 #' img_plot
 #' }
+#' @export
 plot_results <- function(img_path, image_text){
+  image_name <- basename(img_path)
+  if(grepl("[A-Z]", str_sub(image_name, -3, -1))){
+    image_name <- paste0(str_sub(image_name, 1, -4),
+                         tolower(str_sub(image_name, -3, -1)))
+    img_path <- file.path(dirname(img_path),image_name)
+  }
   img <- readImage(img_path)
   bbox_dat <- get_box_coords(img, image_text)
   results_plot <- ggplot_bbox_coords(img, bbox_dat[["bbox_coords"]], bbox_dat[["bbox"]])
@@ -94,6 +103,7 @@ ggplot_bbox_coords <- function(img, bbox_coords, bbox){
 #' @param img_path a file path or URL to an image file of type jpg, tiff, or png
 #' @param img_tags a character vector of metadata tags
 #' @seealso \code{\link{extract_text}} and \code{\link{make_tags}}
+#' @export
 write_XMP <- function(img_path, img_tags){
   exifr::exifr(img_path,
                exiftoolargs=paste0("-XMP:Subject=", "'",
