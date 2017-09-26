@@ -20,6 +20,14 @@ Description
 
 This package is a thin wrapper around the `RoogleVision` package `getGoogleVisionResponse` function with additional functions for plotting of extracted text and writing of extracted text as XMP metadata using the ExifTools tool.
 
+#### Original Field Photo
+
+![Original image](https://raw.githubusercontent.com/mrecos/signboardr/master/vignettes/data/raw_data/example_images/P6190096.JPG)
+
+#### Text Extraction Bounding Boxes on Original Photo
+
+![Highlighted image after analysis](https://raw.githubusercontent.com/mrecos/signboardr/master/vignettes/data/raw_data/highlighted_images/P6190096_highlighted.png)
+
 Usage
 -----
 
