@@ -32,10 +32,15 @@ This package is a thin wrapper around the `RoogleVision` package `getGoogleVisio
 ## Usage 
 
 The general workflow for this package is as follows:
+
 1) Authenticate Google Vision credentials (see authentication section)
+
 2) Execute `extract_text()` on a single image or loop over folder of images
+
 3) Optional: use `plot_results()` to plot the bounding boxes of extracted text
+
 4) Make the image tags with `make_tags()`
+
 5) Write the tags to the images using `write_XMP()`
 
 
