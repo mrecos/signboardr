@@ -63,6 +63,112 @@ googleAuthR::gar_auth()
 ```
 
 ### 2) Execute `extract_text()`
+The `extract_text` function is the heart of the package, but also the simplest function. It is mearly a thin wrapper to the `RoogleVision::getGoogleVisionResponse()` function with the specific parameter setting of `feature = 'TEXT_DETECTION'`.  When passed the URL or path to an image (\*.jpg, \*.png, or \*.tiff), this function calls  `RoogleVision::getGoogleVisionResponse(img-path, feature = 'TEXT_DETECTION')` and returns a list three elements:
+
+* locale = a list of languages for returned text
+* description = all of the identified text. The first vector being a string of all the identified text seperated by the newline character. 
+* boundingPoly = min and max values for the x and Y coordinates of the bounding box around each identified text element.
+
+If all you want to do is identify text, this is about all you need. Given that the function is only one call and no parameters, it is easy to build into a `for` loop or vectorized function like `purrr:::map()`.
+
+### 3) Plot `plot_results()`
+This is one of the additional functions beyond what is available in `RoogleVision`. This function uses `ggplot2` to plot the original image along with the extracted text and areas where the text was extracted from defined by the `boundingPoly`. An example of an image returned from this function is at the near the top of this README. This function offers both a good way to proof the returned values from `extract_text()`, but also a visual means of storing the results of the process for archival purposes. This function takes two inputs, 1) the results from `extract_text()` and the path to the image, and outputs `ggplot2` object for plotting or further manipulation.
+
+### 4) Make Metadata tags with `make_tags()`
+`make_tags()` takes the output from `extract_text()` and returns a string of all identified text with spaces sperating each element.  This format once input into the `XMP` metadata slots is read as individual tags. From the output of `make_tags()` the user can add any additional information that they want inserted into the images metadata for searching, sorting, or organizing.
+
+### 5) Write Metadata to Images `write_XMP()`
+This function is a wrapper for the very powerful `xifr::exifr()` function that reads and writes all forms of metadata to any applicable file type. In this implimentation, the primary argument past to `exif tools` is setting the `XMP:Subject` metadata slot equal to the tags generated from `make_tags()`.  The `XMP:Subject` metadata slot is one of many possible choices, but it is appropriate here because it is avaiable for image files and is searchable on both Windows and OSX (Apple) platforms. When executed, the existing contents of the `XMP:Subject` slot is overwritten with the information contained in a character string passed as `img_tags`.
+
+## Short example of workflow on a single image
+```{r short_single_example, eval=FALSE}
+get_key <- readLines("key.api")
+### plugin your credentials
+options("googleAuthR.client_id" = get_key[1])
+options("googleAuthR.client_secret" = get_key[2])
+### define scope!
+options("googleAuthR.scopes.selected" = c("https://www.googleapis.com/auth/cloud-platform"))
+googleAuthR::gar_auth()
+img_path <- list.files("./vignettes/data/raw_data/example_images", full.names = TRUE)[1]
+file.exists(img_path)
+img_results <- extract_text(img_path)
+p <- plot_results(img_path, img_results)
+plot(p)
+img_tags  <- make_tags(img_results)
+write_XMP(img_path, img_tags)
+```
+
+
+## Example of looping over a directory of files, writing results to CSV, and extracting tags from images
+```{r long_loop_example, eval=FALSE}
+get_key <- readLines("key.api")
+### plugin your credentials
+options("googleAuthR.client_id" = get_key[1])
+options("googleAuthR.client_secret" = get_key[2])
+### define scope!
+options("googleAuthR.scopes.selected" = c("https://www.googleapis.com/auth/cloud-platform"))
+googleAuthR::gar_auth()
+
+photo_loc  <- paste0(getwd(), "/photos/boards/")
+save_loc   <- paste0(getwd(), "/photos/highlighted/")
+image_files <- list.files(photo_loc, pattern = "\\.jpg$|\\.JPG$|\\.png$|\\.PNG$|\\.tiff$|\\.TIFF$",
+                          recursive = FALSE, include.dirs = FALSE)
+results <- data.frame(matrix(ncol = 3, nrow = length(image_files)))
+colnames(results) <- c("filename", "status", "tags")
+for(i in seq_along(image_files)){
+  status  <- NA
+  GV_tags <- NA
+  message(i)
+  image_name <- image_files[i]
+  if(grepl("[A-Z]", str_sub(image_name, -3, -1))){
+    image_name <- paste0(str_sub(image_name, 1, -4), 
+                         tolower(str_sub(image_name, -3, -1)))
+    message("changed file type to lower case")
+  }
+  image_url <- paste0(photo_loc, image_name)
+  if(!file.exists(image_url)){
+    message("File not found, skipping...")
+    status <- "no file"
+  } else {
+    image_text = getGoogleVisionResponse(image_url,
+                                         feature = 'TEXT_DETECTION')
+    if(ncol(image_text) == 1){
+      message(paste0(image_name, " return a NULL result from GoogleVision API"))
+      status <- "no features"
+    } else {
+      print(image_text$description[1])
+      status <- "success"
+      GV_tags <- image_text[1,"description"] %>%
+        str_replace_all("\n", " ") %>%
+        str_trim()
+      tryCatch(
+        exifr::exifr(image_url, 
+              exiftoolargs=paste0("-XMP:Subject=", "'",
+                                  GV_tags, "'",
+                                  " -overwrite_original")),
+        error=function(e) "NULL"
+      )
+      pp <- plot_results(image_url, image_text)
+      plot(pp)
+      image_root_name <- str_sub(image_name, 1, nchar(image_name)-4) # problem
+      ggsave(paste0(save_loc, image_root_name, "_highlighted.png"))
+    }
+  }
+  results[i,"filename"] <- image_name
+  results[i,"status"]   <- status
+  results[i,"tags"]     <- GV_tags
+}
+write_csv(results, paste0(photo_loc, "results.csv"))
+
+# list of keywords
+image_files2 <- list.files(photo_loc, pattern = "\\.jpg$|\\.JPG$|\\.png$|\\.PNG$|\\.tiff$|\\.TIFF$",
+                          recursive = FALSE, include.dirs = FALSE, full.names = TRUE)
+keywords <- exifr::exifr(image_files2, exiftoolargs = "-XMP:Subject") %>%
+  mutate(filename = image_files) %>%
+  select(filename, Subject, -SourceFile)
+
+```
+
 
 
 ### Licenses
