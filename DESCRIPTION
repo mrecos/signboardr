@@ -12,7 +12,9 @@ BugReports: https://github.com/mrecos/signboardr/issues
 Imports: 
   bookdown,
   googleAuthR,
-  exifr
+  exifr,
+  OpenImageR,
+  stringr
 Remotes:
   cloudyr/RoogleVision
 Suggests: knitr,
