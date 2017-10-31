@@ -17,7 +17,7 @@ Imports:
   stringr,
   ggplot2
 Remotes:
-  cloudyr/RoogleVision
+  github::cloudyr/RoogleVision
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr
