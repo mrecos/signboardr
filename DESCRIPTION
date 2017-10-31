@@ -14,7 +14,8 @@ Imports:
   googleAuthR,
   exifr,
   OpenImageR,
-  stringr
+  stringr,
+  ggplot2
 Remotes:
   cloudyr/RoogleVision
 Suggests: knitr,
