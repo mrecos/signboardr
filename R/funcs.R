@@ -12,6 +12,7 @@
 #' img_file_location <- "./vignettes/data/raw_data/example_images/IMG_0797.JPG"
 #' image_text <- extract_text(img_file_location)
 #' }
+#' @importFrom getGoogleVisionResponse RoogleVision
 #' @export
 extract_text <- function(img_path){
   image_text = getGoogleVisionResponse(img_path, feature = 'TEXT_DETECTION')
