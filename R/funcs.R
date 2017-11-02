@@ -12,10 +12,10 @@
 #' img_file_location <- "./vignettes/data/raw_data/example_images/IMG_0797.JPG"
 #' image_text <- extract_text(img_file_location)
 #' }
-#' @importFrom getGoogleVisionResponse RoogleVision
+#' @importFrom RoogleVision getGoogleVisionResponse
 #' @export
 extract_text <- function(img_path){
-  image_text = getGoogleVisionResponse(img_path, feature = 'TEXT_DETECTION')
+  image_text = RoogleVision::getGoogleVisionResponse(img_path, feature = 'TEXT_DETECTION')
 }
 
 #' @title Convert API response to tags
@@ -24,10 +24,11 @@ extract_text <- function(img_path){
 #' \code{make_tags} Takes the response from GoogleVision API and returns tags for metadata
 #' @param image_text a data.frame of extracted text as returned from \code{extract_text}
 #' @export
+#' #' @importFrom stringr str_replace_all str_trim
 make_tags <- function(image_text){
   img_tags <- image_text[1,"description"] %>%
-    str_replace_all("\n", " ") %>%
-    str_trim()
+    stringr::str_replace_all("\n", " ") %>%
+    stringr::str_trim()
 }
 
 #' @title Plots text and bounding boxes on photo
@@ -83,10 +84,10 @@ get_box_coords <- function(img, image_text){
 #'
 #' @description
 #' \code{ggplot_bbox_coords} Builds ggplot object from image, tags, and bounding boxes
-#'
+#' @importFrom ggplot2 ggplot
 ggplot_bbox_coords <- function(img, bbox_coords, bbox){
   g <- rasterGrob(img, interpolate=TRUE)
-  p <- ggplot(bbox_coords,aes(x=x, y=(bbox$yUR-y))) +
+  p <- ggplot2::ggplot(bbox_coords,aes(x=x, y=(bbox$yUR-y))) +
     annotation_custom(g, xmin=bbox$xLL, xmax=bbox$xUR,
                       ymin=bbox$yLL, ymax=bbox$yUR) +
     # geom_polygon(aes(group = group, color = as.factor(desc)), fill = NA, size = 0.75) +
@@ -105,6 +106,7 @@ ggplot_bbox_coords <- function(img, bbox_coords, bbox){
 #' @param img_tags a character vector of metadata tags
 #' @seealso \code{\link{extract_text}} and \code{\link{make_tags}}
 #' @export
+#' @import exifr
 write_XMP <- function(img_path, img_tags){
   exifr::exifr(img_path,
                exiftoolargs=paste0("-XMP:Subject=", "'",
