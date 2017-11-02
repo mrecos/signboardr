@@ -23,6 +23,7 @@ extract_text <- function(img_path){
 #' @description
 #' \code{make_tags} Takes the response from GoogleVision API and returns tags for metadata
 #' @param image_text a data.frame of extracted text as returned from \code{extract_text}
+#' @import stringr
 #' @export
 #' #' @importFrom stringr str_replace_all str_trim
 make_tags <- function(image_text){
