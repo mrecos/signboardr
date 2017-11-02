@@ -25,7 +25,8 @@ extract_text <- function(img_path){
 #' @param image_text a data.frame of extracted text as returned from \code{extract_text}
 #' @import stringr
 #' @export
-#' #' @importFrom stringr str_replace_all str_trim
+#' @importFrom stringr str_replace_all
+#' @importFrom stringr str_trim
 make_tags <- function(image_text){
   img_tags <- image_text[1,"description"] %>%
     stringr::str_replace_all("\n", " ") %>%
