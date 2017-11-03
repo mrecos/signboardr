@@ -14,9 +14,8 @@ Imports:
   googleAuthR,
   OpenImageR,
   stringr,
-  ggplot2
-Remotes:
-  github::cloudyr/RoogleVision
+  ggplot2,
+  RCurl
 Suggests: 
     knitr,
     rmarkdown
