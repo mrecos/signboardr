@@ -17,7 +17,7 @@ Imports:
   ggplot2,
   RCurl,
   RoogleVision
-Remostes:
+Remotes:
   cloudyr/RoogleVision
 Suggests: 
     knitr,
