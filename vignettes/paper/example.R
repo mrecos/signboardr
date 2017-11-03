@@ -1,12 +1,12 @@
 # devtools::install_github("cloudyr/RoogleVision")
 require("signboardr")
-require("RoogleVision")
-require("googleAuthR")
-require("exifr")
-library("stringr")
-library("tidyverse") # cant require entire tidyverse
-library("grid") # for rasterGrob()
-library("OpenImageR") # for readImage()
+# require("RoogleVision")
+# require("googleAuthR")
+# require("exifr")
+# library("stringr")
+# library("tidyverse") # cant require entire tidyverse
+# library("grid") # for rasterGrob()
+# library("OpenImageR") # for readImage()
 
 get_key <- readLines("key.api")
 

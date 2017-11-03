@@ -18,7 +18,6 @@ Imports:
 Remotes:
   github::cloudyr/RoogleVision
 Suggests: 
-    exifr,
     knitr,
     rmarkdown
 VignetteBuilder: knitr

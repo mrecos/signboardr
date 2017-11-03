@@ -80,7 +80,7 @@ get_box_coords <- function(img, image_text){
     dplyr::mutate(group = rep(seq(1,bbox_cnt,1), each = 4),
            desc  = rep(image_text$description, each = 4),
            pos   = rep(c("LL","LR","UR","UL"), times = bbox_cnt)) %>%
-    filter(group != 1)
+    dplyr::filter(group != 1)
   return(list(bbox = bbox, bbox_coords = bbox_coords))
 }
 
@@ -88,9 +88,10 @@ get_box_coords <- function(img, image_text){
 #'
 #' @description
 #' \code{ggplot_bbox_coords} Builds ggplot object from image, tags, and bounding boxes
-#' @importFrom ggplot2 ggplot
+#' @import ggplot2
+#' @importFrom grid rasterGrob
 ggplot_bbox_coords <- function(img, bbox_coords, bbox){
-  g <- rasterGrob(img, interpolate=TRUE)
+  g <- grid::rasterGrob(img, interpolate=TRUE)
   p <- ggplot2::ggplot(bbox_coords,aes(x=x, y=(bbox$yUR-y))) +
     annotation_custom(g, xmin=bbox$xLL, xmax=bbox$xUR,
                       ymin=bbox$yLL, ymax=bbox$yUR) +
@@ -102,18 +103,17 @@ ggplot_bbox_coords <- function(img, bbox_coords, bbox){
   return(p)
 }
 
-#' @title Write metadata tags to image
-#'
-#' @description
-#' \code{extract_text} Writes XMP metadata tags to image using exiftools
-#' @param img_path a file path or URL to an image file of type jpg, tiff, or png
-#' @param img_tags a character vector of metadata tags
-#' @seealso \code{\link{extract_text}} and \code{\link{make_tags}}
-#' @export
-#' @importFrom exifr exifr
-write_XMP <- function(img_path, img_tags){
-  exifr::exifr(img_path,
-               exiftoolargs=paste0("-XMP:Subject=", "'",
-                                   img_tags, "'",
-                                   " -overwrite_original"))
-}
+# @title Write metadata tags to image
+# @description
+# \code{extract_text} Writes XMP metadata tags to image using exiftools
+# @param img_path a file path or URL to an image file of type jpg, tiff, or png
+# @param img_tags a character vector of metadata tags
+# @seealso \code{\link{extract_text}} and \code{\link{make_tags}}
+# @export
+# @importFrom exifr exifr
+# write_XMP <- function(img_path, img_tags){
+#   exifr::exifr(img_path,
+#                exiftoolargs=paste0("-XMP:Subject=", "'",
+#                                    img_tags, "'",
+#                                    " -overwrite_original"))
+# }
