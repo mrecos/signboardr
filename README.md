@@ -1,5 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+[![Build Status](https://travis-ci.org/mrecos/signboardr.svg?branch=master)](https://travis-ci.org/mrecos/signboardr)
+
 signboardr
 ==========
 
@@ -45,7 +47,7 @@ The general workflow for this package is as follows:
 
 ### 1) Authentication
 
-The use of the Google Vision API requires an account and billing information on the [Google Cloud Platform](https://console.cloud.google.com/). At the current time, signing up allows you a one year free trials and $300.00 in credits. There is plenty online about how to setup the API and get your keys, but it is pretty straightforward. Here is a starting point [API Setup](https://cloud.google.com/vision/docs/before-you-begin). Once you have your keys, there are a few lines of setup that need to be run to authenticate your R session so that the images can be analyzed. The code below shows the approach I have used. Note, you need to plug in your client ID and secret token in the first two lines. The easiest, but lease secure way is to hard code the keys into your script. Alternatively, you can put them into a file that is read into the script, or download the client\_secret JSON file from the API dashboard and set is location with `options("googleAuthR.client_secret" = "PATH TO JSON FILE")`
+The use of the Google Vision API requires an account and billing information on the [Google Cloud Platform](https://console.cloud.google.com/). At the current time, signing up allows you a one year free trials and $300.00 in credits. There is plenty online about how to setup the API and get your keys, but it is pretty straightforward. Here is a starting point [API Setup](https://cloud.google.com/vision/docs/before-you-begin). Follow the prompts to get an OAuth client ID. Once you have your keys, there are a few lines of setup that need to be run to authenticate your R session so that the images can be analyzed. The code below shows the approach I have used. Note, you need to plug in your client ID and secret token in the first two lines. The easiest, but lease secure way is to hard code the keys into your script. Alternatively, you can put them into a file that is read into the script, or download the client\_secret JSON file from the API dashboard and set is location with `options("googleAuthR.client_secret" = "PATH TO JSON FILE")`
 
 ``` r
 ### plugin your credentials
