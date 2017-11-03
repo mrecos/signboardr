@@ -47,14 +47,16 @@ make_tags <- function(image_text){
 #' img_plot
 #' }
 #' @export
+#' @importFrom stringr str_sub
+#' @importFrom OpenImageR readImage
 plot_results <- function(img_path, image_text){
   image_name <- basename(img_path)
-  if(grepl("[A-Z]", str_sub(image_name, -3, -1))){
-    image_name <- paste0(str_sub(image_name, 1, -4),
-                         tolower(str_sub(image_name, -3, -1)))
+  if(grepl("[A-Z]", stringr::str_sub(image_name, -3, -1))){
+    image_name <- paste0(stringr::str_sub(image_name, 1, -4),
+                         tolower(stringr::str_sub(image_name, -3, -1)))
     img_path <- file.path(dirname(img_path),image_name)
   }
-  img <- readImage(img_path)
+  img <- OpenImageR::readImage(img_path)
   bbox_dat <- get_box_coords(img, image_text)
   results_plot <- ggplot_bbox_coords(img, bbox_dat[["bbox_coords"]], bbox_dat[["bbox"]])
 }
@@ -74,8 +76,8 @@ get_box_coords <- function(img, image_text){
                      xUL   = 0, xLR   = dim(img)[2],
                      yLL   = 0, yUR   = dim(img)[1],
                      yUL   = dim(img)[1], yLR = 0)
-  bbox_coords <- bind_rows(image_text$boundingPoly$vertices) %>%
-    mutate(group = rep(seq(1,bbox_cnt,1), each = 4),
+  bbox_coords <- dplyr::bind_rows(image_text$boundingPoly$vertices) %>%
+    dplyr::mutate(group = rep(seq(1,bbox_cnt,1), each = 4),
            desc  = rep(image_text$description, each = 4),
            pos   = rep(c("LL","LR","UR","UL"), times = bbox_cnt)) %>%
     filter(group != 1)
@@ -108,7 +110,7 @@ ggplot_bbox_coords <- function(img, bbox_coords, bbox){
 #' @param img_tags a character vector of metadata tags
 #' @seealso \code{\link{extract_text}} and \code{\link{make_tags}}
 #' @export
-#' @import exifr
+#' @importFrom exifr exifr
 write_XMP <- function(img_path, img_tags){
   exifr::exifr(img_path,
                exiftoolargs=paste0("-XMP:Subject=", "'",
