@@ -15,7 +15,10 @@ Imports:
   OpenImageR,
   stringr,
   ggplot2,
-  RCurl
+  RCurl,
+  RoogleVision
+Remostes:
+  cloudyr/RoogleVision
 Suggests: 
     knitr,
     rmarkdown
