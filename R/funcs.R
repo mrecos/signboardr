@@ -104,17 +104,17 @@ ggplot_bbox_coords <- function(img, bbox_coords, bbox){
   return(p)
 }
 
-# @title Write metadata tags to image
-# @description
-# \code{extract_text} Writes XMP metadata tags to image using exiftools
-# @param img_path a file path or URL to an image file of type jpg, tiff, or png
-# @param img_tags a character vector of metadata tags
-# @seealso \code{\link{extract_text}} and \code{\link{make_tags}}
-# @export
-# @importFrom exifr exifr
-# write_XMP <- function(img_path, img_tags){
-#   exifr::exifr(img_path,
-#                exiftoolargs=paste0("-XMP:Subject=", "'",
-#                                    img_tags, "'",
-#                                    " -overwrite_original"))
-# }
+#' @title Write metadata tags to image
+#' @description
+#' \code{extract_text} Writes XMP metadata tags to image using exiftools
+#' @param img_path a file path or URL to an image file of type jpg, tiff, or png
+#' @param img_tags a character vector of metadata tags
+#' @seealso \code{\link{extract_text}} and \code{\link{make_tags}}
+#' @export
+#' @importFrom exifr exifr
+write_XMP <- function(img_path, img_tags){
+  exifr::exifr(img_path,
+               exiftoolargs=paste0("-XMP:Subject=", "'",
+                                   img_tags, "'",
+                                   " -overwrite_original"))
+}
