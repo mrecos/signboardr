@@ -11,6 +11,7 @@ knitr::opts_chunk$set(
   fig.path = "README-"
 )
 ```
+[![Build Status](https://travis-ci.org/mrecos/signboardr.svg?branch=master)](https://travis-ci.org/mrecos/signboardr)
 
 # signboardr
 
