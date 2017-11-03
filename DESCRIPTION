@@ -16,7 +16,8 @@ Imports:
   stringr,
   ggplot2,
   RCurl,
-  RoogleVision
+  exifr,
+  RoogleVision,
 Remotes:
   cloudyr/RoogleVision
 Suggests: 
