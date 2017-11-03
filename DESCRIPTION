@@ -12,13 +12,14 @@ BugReports: https://github.com/mrecos/signboardr/issues
 Imports: 
   bookdown,
   googleAuthR,
-  exifr,
   OpenImageR,
   stringr,
   ggplot2
 Remotes:
   github::cloudyr/RoogleVision
-Suggests: knitr,
+Suggests: 
+    exifr,
+    knitr,
     rmarkdown
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
