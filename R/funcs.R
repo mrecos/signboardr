@@ -111,7 +111,6 @@ ggplot_bbox_coords <- function(img, bbox_coords, bbox){
 #' @param img_tags a character vector of metadata tags
 #' @seealso \code{\link{extract_text}} and \code{\link{make_tags}}
 #' @export
-#' @importFrom exifr exifr
 write_XMP <- function(img_path, img_tags){
   if (!requireNamespace("exifr", quietly = TRUE)) {
     stop("exifr package needed for this function to work. Please install it and its dependencies.",
