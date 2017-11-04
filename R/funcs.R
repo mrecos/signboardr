@@ -113,6 +113,10 @@ ggplot_bbox_coords <- function(img, bbox_coords, bbox){
 #' @export
 #' @importFrom exifr exifr
 write_XMP <- function(img_path, img_tags){
+  if (!requireNamespace("exifr", quietly = TRUE)) {
+    stop("exifr package needed for this function to work. Please install it and its dependencies.",
+         call. = FALSE)
+  }
   exifr::exifr(img_path,
                exiftoolargs=paste0("-XMP:Subject=", "'",
                                    img_tags, "'",
